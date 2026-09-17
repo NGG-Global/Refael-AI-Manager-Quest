@@ -1,0 +1,717 @@
+/* ---------------------------------------------------------------------------
+   Refael · LEAD AI — שאלון מוכנות אישי
+   Stylesheet.
+
+   Built on the Rafael LEAD AI design system. Colour values, font stack, weights,
+   type ratios, radii and the comet motif are taken from that system unchanged.
+   Where the system — a 1920 × 1080 presentation template — carries no rule for
+   a responsive, interactive surface, the adaptation is marked "ADAPTED" and
+   listed in README.md.
+--------------------------------------------------------------------------- */
+
+/* ── Assistant — the system's only typeface, self-hosted ─────────────────── */
+
+@font-face {
+  font-family: "Assistant";
+  src: url("../fonts/assistant-hebrew.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Assistant";
+  src: url("../fonts/assistant-latin-ext.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Assistant";
+  src: url("../fonts/assistant-latin.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Tokens ──────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Colour — verbatim from the design system */
+  --blue: #0044e8;
+  --navy: #00002c;
+  --ink: #000030;
+  --mist: #f8fafc;
+  --white: #ffffff;
+  --black: #000000;
+  --ink-muted: #404040;
+
+  --ground-mist: var(--mist);
+  --ground-white: var(--white);
+  --ground-navy: var(--navy);
+  --ground-blue: var(--blue);
+
+  --text-title-on-light: var(--ink);
+  --text-title-on-dark: var(--white);
+  --text-body-on-light: var(--black);
+  --text-body-on-dark: var(--white);
+  --text-kicker-accent: var(--blue);
+  --text-footer: var(--ink-muted);
+
+  --motif-primary: var(--blue);
+  --motif-dark: var(--navy);
+
+  /* Type — family and weights verbatim */
+  --font-core: "Assistant", "Segoe UI", system-ui, sans-serif;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* ADAPTED — the system's type ratios (88 : 64 : 48 : 40 : 36 : 24 against a
+     36 px body) held exactly, but anchored to a screen-reading body size
+     instead of the projector's. Every step below is body × the system ratio. */
+  --fs-body: clamp(16px, 1.05rem + 0.35vw, 19px);
+  --fs-body-lg: clamp(17.5px, 1.15rem + 0.4vw, 21px);   /* × 1.111 */
+  --fs-kicker: clamp(20px, 1.25rem + 0.7vw, 25px);      /* × 1.333 */
+  --fs-subtitle: clamp(26px, 1.55rem + 1.5vw, 34px);    /* × 1.778 */
+  --fs-title: clamp(30px, 1.65rem + 2.6vw, 46px);       /* × 2.444 */
+  --fs-hero: clamp(44px, 2.2rem + 4.6vw, 70px);         /* × 3.704 */
+  --fs-footer: clamp(11px, 0.7rem + 0.15vw, 13px);      /* × 0.667 */
+
+  /* Leading — 0.9 is the system's signature and is kept on every display
+     style. ADAPTED: running paragraphs get a readable leading; at 0.9 a
+     multi-line Hebrew paragraph is not legible on screen. */
+  --lh-tight: 0.9;
+  --lh-read: 1.55;
+
+  /* Rhythm — the system's paragraph gaps, scaled to the web type size */
+  --para-gap-l1: 20px;
+  --para-gap-l2: 10px;
+
+  /* ADAPTED — the system's side margin as a ratio (132 / 1920 = 6.875 %) */
+  --gutter: clamp(20px, 6.875vw, 56px);
+  --measure: 46rem;
+
+  /* Geometry — the system allows 50 %, stadium, 92 px and 0. Nothing else. */
+  --image-radius: 92px;
+
+  /* Motif — the template's two shapes are 273 × 89 (trail) and 93 (dot), and
+     it never scales one against the other. --comet-w drives both, so the whole
+     device scales as one and the proportions stay exact. It reaches its
+     template size at the template's own canvas width: 273 / 1920 = 14.22 vw. */
+  --comet-w: clamp(78px, 14.22vw, 273px);
+  --comet-trail: linear-gradient(90deg, currentColor 0%, rgba(248, 250, 252, 0) 100%);
+  --comet-rot-a: 36.7deg;
+  --comet-rot-b: 51.7deg;
+  --comet-rot-c: 56.3deg;
+  --comet-rot-d: 130.2deg;
+  --comet-rot-e: 148.5deg;
+
+  /* Interactive sizes */
+  --rate-size: clamp(52px, 13.2vw, 78px);
+  --score-size: clamp(140px, 36vw, 208px);
+  --lens-size: clamp(88px, 25vw, 156px);
+}
+
+/* Ground + the ink that belongs on it, per the system's ground table.
+   Set on <body>; one ground per screen, never split or banded. */
+body[data-ground="navy"] {
+  --ground: var(--ground-navy);
+  --slide-ink: var(--text-title-on-dark);
+  --slide-body: var(--text-body-on-dark);
+  --slide-footer: var(--white);
+  --motif: var(--motif-primary);
+}
+body[data-ground="mist"] {
+  --ground: var(--ground-mist);
+  --slide-ink: var(--text-title-on-light);
+  --slide-body: var(--text-body-on-light);
+  --slide-footer: var(--text-footer);
+  --motif: var(--motif-primary);
+}
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ground);
+  color: var(--slide-body);
+  font-family: var(--font-core);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-read);
+}
+
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+img { display: block; max-width: 100%; height: auto; }
+button { font: inherit; color: inherit; }
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+
+/* #app carries the growth so a short screen still fills the viewport and the
+   co-branded footer stays on the bottom edge. */
+#app {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  flex: 1 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding-block: clamp(36px, 8vw, 88px);
+}
+
+.screen[hidden] { display: none; }
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.wrap--wide { max-width: 62rem; }
+
+/* ── Type styles ─────────────────────────────────────────────────────────── */
+
+.t-hero {
+  font-size: var(--fs-hero);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  color: var(--slide-ink);
+  letter-spacing: -0.01em;
+}
+
+.t-title {
+  font-size: var(--fs-title);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  color: var(--slide-ink);
+  letter-spacing: -0.01em;
+}
+
+.t-subtitle {
+  font-size: var(--fs-subtitle);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  color: var(--slide-ink);
+}
+
+.t-kicker {
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.t-kicker--accent { color: var(--text-kicker-accent); }
+
+.t-body { font-size: var(--fs-body); }
+.t-body-lg { font-size: var(--fs-body-lg); }
+
+.t-footer {
+  font-size: var(--fs-footer);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-tight);
+  color: var(--slide-footer);
+}
+
+.stack > * + * { margin-block-start: var(--para-gap-l1); }
+.stack-tight > * + * { margin-block-start: var(--para-gap-l2); }
+
+.term {
+  font-weight: var(--fw-extrabold);
+  color: var(--slide-ink);
+}
+
+.nowrap { white-space: nowrap; }
+
+/* ── The comet motif ─────────────────────────────────────────────────────── */
+
+.motif {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  color: var(--motif);
+  overflow: hidden;
+}
+
+.comet-trail,
+.comet-dot {
+  position: absolute;
+  transform-origin: 50% 50%;
+}
+
+/* A comet is one trail and one dot placed independently, as in the template.
+   The group is anchored at the trail's centre; --dx/--dy carry the trail's
+   transparent end for the rotation in use. */
+.comet {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 0;
+  height: 0;
+}
+
+.comet > .comet-trail {
+  left: calc(var(--comet-w) / -2);
+  top: calc(var(--comet-w) * 89 / 273 / -2);
+  transform: rotate(var(--rot));
+}
+
+.comet > .comet-dot {
+  left: calc(var(--comet-w) * (var(--dx) - 46.5) / 273);
+  top: calc(var(--comet-w) * (var(--dy) - 46.5) / 273);
+}
+
+.comet--bottom {
+  top: auto;
+  bottom: var(--y);
+}
+
+/* The side margins only exist on a wide screen; below that the copy runs to
+   the gutter and a comet there would sit under it. */
+.comet--wide { display: none; }
+
+@media (min-width: 64rem) {
+  .comet--wide { display: block; }
+}
+
+.dot-solo {
+  left: var(--x);
+  top: var(--y);
+}
+
+.comet-trail {
+  width: var(--comet-w);
+  height: calc(var(--comet-w) * 89 / 273);
+  border-radius: 999px;              /* stadium: radius = height ÷ 2 */
+  background-image: var(--comet-trail);
+}
+
+.comet-dot {
+  width: calc(var(--comet-w) * 93 / 273);
+  height: calc(var(--comet-w) * 93 / 273);
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ── Intro screen ────────────────────────────────────────────────────────── */
+
+.intro__title { margin-block-end: clamp(20px, 4vw, 34px); }
+
+.intro__dims {
+  margin-block-start: var(--para-gap-l1);
+  display: grid;
+  gap: var(--para-gap-l1);
+}
+
+.intro__instruction {
+  margin-block-start: clamp(24px, 5vw, 40px);
+  font-size: var(--fs-body-lg);
+  font-weight: var(--fw-bold);
+  color: var(--slide-ink);
+}
+
+/* The 1–5 scale, § 2 */
+.scale {
+  margin-block-start: clamp(20px, 4vw, 30px);
+  width: auto;
+  border-collapse: collapse;
+  text-align: start;
+}
+
+.scale caption { display: none; }
+
+.scale th,
+.scale td {
+  padding-block: 8px;
+  padding-inline: 0 26px;
+  line-height: var(--lh-tight);
+  white-space: nowrap;
+}
+
+.scale th {
+  font-size: var(--fs-footer);
+  font-weight: var(--fw-bold);
+  color: var(--slide-footer);
+  text-transform: none;
+}
+
+.scale td { font-size: var(--fs-body); }
+
+.scale td:first-child {
+  font-weight: var(--fw-extrabold);
+  color: var(--slide-ink);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+/* ADAPTED — the system defines no buttons. These use only shapes it does
+   allow: the stadium (its trail and orb pill) and the circle. No border,
+   no shadow, no transparency. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 14px 34px;
+  border: 0;
+  border-radius: 999px;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  cursor: pointer;
+  transition: background-color .2s linear, color .2s linear;
+}
+
+.btn--primary { background: var(--blue); color: var(--white); }
+.btn--primary:hover:not(:disabled) { background: var(--navy); }
+
+.btn--quiet {
+  background: none;
+  padding-inline: 8px;
+  color: var(--slide-footer);
+  font-weight: var(--fw-bold);
+}
+.btn--quiet:hover { color: var(--blue); }
+
+.btn:disabled {
+  background: none;
+  color: var(--ink-muted);
+  cursor: not-allowed;
+}
+
+.btn-row {
+  margin-block-start: clamp(28px, 6vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 4vw, 30px);
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+body[data-ground="navy"] :where(a, button, [tabindex]):focus-visible {
+  outline-color: var(--white);
+}
+
+/* ── Quiz screen ─────────────────────────────────────────────────────────── */
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-block-end: clamp(28px, 6vw, 52px);
+}
+
+.progress__track {
+  flex: 1;
+  height: 4px;
+  background: var(--ground-white);
+}
+
+.progress__bar {
+  height: 100%;
+  width: 0;
+  background: var(--blue);
+  transition: width .28s linear;
+}
+
+.progress__count {
+  flex: none;
+  min-width: 4.5em;
+  font-size: var(--fs-footer);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--slide-footer);
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+}
+
+.question {
+  min-height: clamp(120px, 26vw, 200px);
+  display: flex;
+  align-items: center;
+}
+
+.question__text {
+  font-size: clamp(22px, 1.25rem + 1.7vw, 34px);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  color: var(--slide-ink);
+  letter-spacing: -0.01em;
+}
+
+/* The 1–5 rating row. The circles are the template's stat-circle device:
+   blue and ink are its two fills. */
+.rating-block {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  margin-block-start: clamp(28px, 6vw, 48px);
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  gap: clamp(8px, 2.6vw, 20px);
+}
+
+.rate {
+  flex: none;
+  width: var(--rate-size);
+  height: var(--rate-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  font-size: calc(var(--rate-size) * 0.42);
+  font-weight: var(--fw-extrabold);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .2s linear;
+}
+
+.rate:hover { background: var(--blue); }
+.rate[aria-checked="true"] { background: var(--blue); }
+
+.anchors {
+  margin-block-start: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-footer);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--slide-footer);
+}
+
+/* ── Results ─────────────────────────────────────────────────────────────── */
+
+.results { justify-content: flex-start; }
+
+.zone + .zone { margin-block-start: clamp(56px, 12vw, 104px); }
+
+.zone__heading {
+  text-align: center;
+  margin-block-end: clamp(28px, 6vw, 48px);
+}
+
+/* Zone 1 — שני ממדי-העל */
+.axes {
+  display: grid;
+  gap: clamp(48px, 9vw, 64px);
+}
+
+@media (min-width: 52rem) {
+  .axes { grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 64px); }
+}
+
+.axis { text-align: center; }
+
+.axis__body { text-align: start; }
+
+.disc {
+  width: var(--score-size);
+  height: var(--score-size);
+  margin-inline: auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: calc(var(--score-size) * 0.27);
+  font-weight: var(--fw-extrabold);
+  line-height: 1;
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+.disc--blue { background: var(--blue); }
+.disc--ink { background: var(--ink); }
+
+.axis__name {
+  margin-block-start: clamp(18px, 3.4vw, 26px);
+  font-size: var(--fs-subtitle);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  color: var(--slide-ink);
+  direction: ltr;
+}
+
+.axis__band {
+  margin-block-start: 10px;
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--text-kicker-accent);
+}
+
+.axis__text { margin-block-start: clamp(18px, 3.4vw, 26px); }
+
+.next-step { margin-block-start: var(--para-gap-l1); }
+.next-step__label {
+  font-weight: var(--fw-extrabold);
+  color: var(--slide-ink);
+}
+
+/* Zone 2 — העדשה הרפאלית */
+.lenses {
+  max-width: 52rem;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 3vw, 28px);
+  align-items: stretch;
+}
+
+.lens {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.lens__disc {
+  width: var(--lens-size);
+  height: var(--lens-size);
+  margin-inline: auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--white);
+  font-size: calc(var(--lens-size) * 0.26);
+  font-weight: var(--fw-extrabold);
+  line-height: 1;
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+.lens--growth .lens__disc { background: var(--blue); }
+
+.lens__name {
+  margin-block-start: 14px;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  color: var(--slide-ink);
+}
+
+.lens__tags {
+  margin-block-start: auto;
+  padding-block-start: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 8px 15px;
+  border-radius: 999px;
+  font-size: var(--fs-footer);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.tag--strength { background: var(--ink); color: var(--white); }
+.tag--growth { background: var(--blue); color: var(--white); }
+
+.growth {
+  max-width: var(--measure);
+  margin-inline: auto;
+  margin-block-start: clamp(36px, 7vw, 56px);
+  display: grid;
+  gap: clamp(26px, 5vw, 40px);
+}
+
+.growth > article + article { margin-block-start: clamp(6px, 2vw, 14px); }
+
+.growth__title {
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--text-kicker-accent);
+  text-align: center;
+}
+
+.growth__name {
+  font-size: var(--fs-subtitle);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  color: var(--slide-ink);
+  text-align: center;
+}
+
+.growth__text { margin-block-start: clamp(18px, 3.4vw, 26px); }
+
+/* Zone 3 — מכאן למפת הצמיחה שלי */
+.closing { text-align: center; }
+
+.closing__question {
+  max-width: var(--measure);
+  margin-inline: auto;
+  margin-block-start: clamp(20px, 4vw, 30px);
+  font-size: var(--fs-body-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--slide-body);
+}
+
+/* ── Footer — the co-branded row, present on every screen ────────────────── */
+
+.brandbar {
+  flex: none;
+  position: relative;
+  z-index: 1;
+  direction: ltr;                    /* the footer row runs left-to-right */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: clamp(20px, 4vw, 30px) var(--gutter);
+}
+
+.brandbar__ngg { height: clamp(30px, 6.4vw, 38px); width: auto; }
+.brandbar__rafael { height: clamp(15px, 3.2vw, 19px); width: auto; }
+
+/* ── Motion ──────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ── Print — the results are the one screen people keep ──────────────────── */
+
+@media print {
+  body { background: var(--white); color: var(--black); }
+  .motif, .btn-row, .progress { display: none !important; }
+  .zone, .axis, .growth { break-inside: avoid; }
+}
