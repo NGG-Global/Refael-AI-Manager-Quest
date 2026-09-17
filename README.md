@@ -39,7 +39,10 @@ of integers multiplied by 20, no reachable score falls between 79 and 80.
 
 The highest-scoring lens area is marked חוזקה and the lowest מוקד צמיחה; on a tie
 every area at that score is marked, and each one's action direction is shown
-(§ 4.2). See *Open points* below for the case where all three score the same.
+(§ 4.2). When all three score the same there is no higher or lower area, so no
+circle is marked and the balanced reading — *חיבור בין היכולות*, supplied by
+Rafael and held in `content.js` as `balanced` — takes the place of the three
+action directions.
 
 Questions are compulsory and are presented one per screen: the forward step stays
 inactive until the statement on screen is rated. The axis and lens each statement
@@ -134,15 +137,6 @@ Pages is on, merge this branch into `main`; the workflow runs there too.
 
 ## Open points
 
-Two items are worth a decision by NGG and Rafael before this goes to
-participants:
-
-- **All three lens areas tied.** § 4.2 defines the strength as the highest-scoring
-  area and the growth focus as the lowest. When all three score the same — which a
-  uniform set of answers produces — there is no higher or lower area, so no circle
-  is marked and all three action directions are shown instead. Marking every area
-  as both חוזקה and מוקד צמיחה would be the literal reading, but it contradicts
-  itself on screen.
 - **Results are not stored.** Nothing is sent anywhere and nothing is kept: a
   reload clears the answers. If results need to be retained or aggregated, that is
   a separate requirement with its own privacy handling.

@@ -376,19 +376,35 @@
     zone2.appendChild(list);
 
     /* The growth focus and its action direction, § 8. On a tie the title is
-       carried once and each tied area follows it. */
+       carried once and each tied area follows it. When all three score the
+       same there is no lowest area, so the balanced reading takes its place. */
     var growth = el('div', 'growth');
-    growth.appendChild(el('p', 'growth__title', C.results.growthTitle));
-    C.lenses.forEach(function (lens, i) {
-      if (scores[i] !== low) { return; }
-      var block = el('article');
-      block.appendChild(el('p', 'growth__name', lens.name));
-      var text = el('div', 'growth__text stack');
-      text.appendChild(el('p', 't-body', lens.meaning));
-      text.appendChild(el('p', 't-body', lens.action));
-      block.appendChild(text);
-      growth.appendChild(block);
-    });
+
+    if (noSpread) {
+      growth.appendChild(el('p', 'growth__title', C.balanced.title));
+      var balanced = el('article');
+      balanced.appendChild(el('p', 'growth__name', C.balanced.name));
+      var balancedText = el('div', 'growth__text stack');
+      balancedText.appendChild(el('p', 't-body', C.balanced.meaning));
+      var action = el('p', 't-body');
+      action.appendChild(el('span', 'next-step__label action-label', C.balanced.actionLabel));
+      action.appendChild(setText(document.createDocumentFragment(), C.balanced.action));
+      balancedText.appendChild(action);
+      balanced.appendChild(balancedText);
+      growth.appendChild(balanced);
+    } else {
+      growth.appendChild(el('p', 'growth__title', C.results.growthTitle));
+      C.lenses.forEach(function (lens, i) {
+        if (scores[i] !== low) { return; }
+        var block = el('article');
+        block.appendChild(el('p', 'growth__name', lens.name));
+        var text = el('div', 'growth__text stack');
+        text.appendChild(el('p', 't-body', lens.meaning));
+        text.appendChild(el('p', 't-body', lens.action));
+        block.appendChild(text);
+        growth.appendChild(block);
+      });
+    }
     zone2.appendChild(growth);
     wrap.appendChild(zone2);
 

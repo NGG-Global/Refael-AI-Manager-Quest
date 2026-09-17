@@ -576,6 +576,9 @@ body[data-ground="navy"] :where(a, button, [tabindex]):focus-visible {
   color: var(--slide-ink);
 }
 
+/* The balanced reading carries its action label on its own line. */
+.action-label { display: block; }
+
 /* Zone 2 — העדשה הרפאלית */
 .lenses {
   max-width: 52rem;
