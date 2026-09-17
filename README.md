@@ -113,9 +113,24 @@ opening `index.html` straight from the filesystem also works.
 
 `.github/workflows/deploy-pages.yml` publishes the repository root to GitHub Pages
 on every push to `main` or to the development branch, and can be run by hand from
-the Actions tab. It turns Pages on for the repository if it is not on already; if
-that step is refused, set **Settings → Pages → Source** to **GitHub Actions** once
-and re-run the workflow.
+the Actions tab.
+
+**One setting has to be made by a repository admin before the first deploy.**
+The workflow asks GitHub to turn Pages on, and GitHub refuses that to a workflow
+token:
+
+```
+Get Pages site failed. Error: Not Found
+Create Pages site failed. Error: Resource not accessible by integration
+```
+
+Set **Settings → Pages → Source** to **GitHub Actions** — not *Deploy from a
+branch*, which the workflow cannot publish to — then re-run the workflow from the
+Actions tab. Every later push deploys on its own.
+
+GitHub may also restrict the `github-pages` deployment environment to the
+repository's default branch. If the deploy step is refused on that ground after
+Pages is on, merge this branch into `main`; the workflow runs there too.
 
 ## Open points
 
