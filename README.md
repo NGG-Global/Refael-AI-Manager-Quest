@@ -18,9 +18,10 @@ reproduced verbatim. It lives in one place, `assets/js/content.js`, so it can be
 checked against the document without reading any logic. Section numbers in the
 comments there refer to that document.
 
-The only strings that are not from the document are the five navigation labels at
-the end of `content.js` (`להתחלת השאלון`, `חזרה`, `הבא`, `לצפייה בתוצאות`,
-`התחלה מחדש`), which a self-paced form cannot do without.
+The only strings that are not from the document are the navigation labels at the
+end of `content.js` (`להתחלת השאלון`, `חזרה`, `הבא`, `לצפייה בתוצאות`,
+`התחלה מחדש`), which a self-paced form cannot do without, and the labels on the
+two save buttons below them, which the document does not reach.
 
 ## Scoring
 
@@ -47,6 +48,48 @@ action directions.
 Questions are compulsory and are presented one per screen: the forward step stays
 inactive until the statement on screen is rated. The axis and lens each statement
 belongs to are never shown while answering (§ 3, § 11).
+
+## Saving the results
+
+The results screen offers two ways to keep them, and a note under the buttons
+saying what both do: *הקובץ נוצר בדפדפן ואינו נשלח לשום מקום.*
+
+**שמירה כ-PDF** opens the browser's print dialog, where *שמירה כ-PDF* is the
+destination to choose. The print rules at the foot of `styles.css` are what the
+file looks like: on screen the page is a flex column that fills the viewport and
+the screen itself clips, which printed would put everything on page one, so paper
+gets the block layout, the wide two-up axes and fixed stat-circle sizes. The
+document title carries the filename while the dialog is up, which is what Chrome
+and Edge name the saved file after.
+
+**שמירה כתמונה** saves one PNG of the results, laid out at 1080 px and rendered
+at two device pixels per CSS pixel. The buttons are left out, the co-branded
+footer is kept, and the date it was produced is added at the foot.
+
+Neither uses a library — the site has no build step and no dependencies, and is
+meant to run without reaching the network, which rules out the usual
+html-to-canvas and PDF packages. So the two routes are:
+
+| | How |
+|---|---|
+| PDF | `window.print()`. The browser brings real text, correct Hebrew shaping and honest page breaks — all three of which a hand-written PDF writer would have to reimplement, and would get the bidi wrong. |
+| PNG | The results' own markup inside an SVG `<foreignObject>`, drawn to a canvas. An SVG being rendered as an image may not reach outside itself for a file, so the stylesheet, the fonts and the two logos travel with it as data URIs. |
+
+`assets/js/export.js` holds both. Two details in it are worth knowing before
+changing it:
+
+- **`html`, `body` and `:root` do not exist inside an SVG.** One wrapper stands
+  in for all three, and every rule anchored on them is given a twin that targets
+  it. That matters more here than it might: the ground tokens hang off
+  `body[data-ground]`, so without it the results would lose their colours as
+  well as their type.
+- **The height is measured in an iframe of the export's own width.** The type
+  sizes, the gutter and the stat circles are clamped against `vw`, so they only
+  come out at the size the image will use in a viewport that is the width the
+  image will be.
+
+Nothing is uploaded either way: the file is assembled in the page and handed
+straight to the browser's own download, which leaves *Open points* below true.
 
 ## Design
 
@@ -96,6 +139,7 @@ design work. The following were therefore decided here and are marked `ADAPTED` 
 | --- | --- |
 | `index.html` | Shell: three screens, the motif and the footer |
 | `assets/js/content.js` | All copy and the question → axis/lens mapping |
+| `assets/js/export.js` | Saving the results as a PDF or a PNG |
 | `assets/js/app.js` | Scoring, rendering, navigation |
 | `assets/css/styles.css` | Tokens and styles |
 | `assets/fonts/` | Assistant (woff2), from the design system |
@@ -138,5 +182,7 @@ Pages is on, merge this branch into `main`; the workflow runs there too.
 ## Open points
 
 - **Results are not stored.** Nothing is sent anywhere and nothing is kept: a
-  reload clears the answers. If results need to be retained or aggregated, that is
-  a separate requirement with its own privacy handling.
+  reload clears the answers, and the PDF and PNG are built in the page rather
+  than on a server. A participant who wants to keep their results has to save
+  one of the two files before reloading. If results need to be retained or
+  aggregated, that is a separate requirement with its own privacy handling.

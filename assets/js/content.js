@@ -164,6 +164,17 @@ const CONTENT = {
     back: 'חזרה',
     next: 'הבא',
     submit: 'לצפייה בתוצאות',
-    restart: 'התחלה מחדש'
+    restart: 'התחלה מחדש',
+
+    /* Saving the results. The document ends at the results screen and says
+       nothing about keeping them, so these are this implementation's own. */
+    savePdf: 'שמירה כ-PDF',
+    saveImage: 'שמירה כתמונה',
+    saveImageBusy: 'מכין תמונה…',
+    saveNote: 'הקובץ נוצר בדפדפן ואינו נשלח לשום מקום.',
+    savePdfHint: 'בחלון ההדפסה יש לבחור יעד "שמירה כ-PDF".',
+    saveImageFailed: 'שמירת התמונה נכשלה בדפדפן הזה. אפשר לשמור כ-PDF דרך ההדפסה.',
+    saveBasename: 'שאלון-מוכנות-אישי',
+    saveCaption: 'מנהל/ת בעידן ה-AI · שאלון מוכנות אישי – רפאל · הופק ב-'
   }
 };

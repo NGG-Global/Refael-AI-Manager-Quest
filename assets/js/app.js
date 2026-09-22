@@ -23,6 +23,7 @@
     results: document.getElementById('screen-results')
   };
   var rafaelMark = document.getElementById('rafael-mark');
+  var brandbar = document.querySelector('.brandbar');
 
   var state = {
     index: 0,
@@ -56,6 +57,26 @@
     var node = document.createElement(tag);
     if (className) { node.className = className; }
     if (text !== undefined && text !== null) { setText(node, text); }
+    return node;
+  }
+
+  /* Replaces a node's text, keeping setText's handling of "כ-PDF"-style pairs. */
+  function reText(node, text) {
+    node.textContent = '';
+    return setText(node, text);
+  }
+
+  /* A button whose label setText may split in two. .btn is a flex container and
+     a flex container drops the white space between its items, so "שמירה כ-PDF"
+     would come out as one word; the label travels inside a single child. */
+  function labelled(tag, className, text) {
+    var node = el(tag, className);
+    node.appendChild(setText(document.createElement('span'), text));
+    return node;
+  }
+
+  function relabel(node, text) {
+    reText(node.firstElementChild, text);
     return node;
   }
 
@@ -414,7 +435,56 @@
     zone3.appendChild(el('p', 'closing__question', C.closing.question));
     wrap.appendChild(zone3);
 
+    wrap.appendChild(exportRow(wrap));
+  }
+
+  /* ── Saving the results ───────────────────────────────────────────────── */
+
+  /* The document ends at the results screen, so what to do with them is left
+     open. Both routes below build the file in the browser and hand it to the
+     browser's own download; nothing is uploaded and nothing is kept. */
+
+  function exportRow(wrap) {
+    var basename = C.ui.saveBasename + '-' + REPORT_EXPORT.stamp();
+    var block = document.createDocumentFragment();
     var row = el('div', 'btn-row');
+    var note = el('p', 'export-note', C.ui.saveNote);
+    note.setAttribute('role', 'status');
+    /* Controls and their note are not part of the picture of the results. */
+    row.setAttribute('data-export', 'skip');
+    note.setAttribute('data-export', 'skip');
+
+    var pdf = labelled('button', 'btn btn--primary', C.ui.savePdf);
+    pdf.type = 'button';
+    pdf.addEventListener('click', function () {
+      reText(note, C.ui.savePdfHint);
+      REPORT_EXPORT.savePdf(basename);
+    });
+    row.appendChild(pdf);
+
+    var image = labelled('button', 'btn btn--primary', C.ui.saveImage);
+    image.type = 'button';
+    image.addEventListener('click', function () {
+      image.disabled = true;
+      relabel(image, C.ui.saveImageBusy);
+      reText(note, C.ui.saveNote);
+
+      REPORT_EXPORT.saveImage({
+        sources: [wrap, brandbar],
+        ground: 'mist',
+        filename: basename + '.png',
+        caption: C.ui.saveCaption + REPORT_EXPORT.stamp()
+      }).catch(function (error) {
+        /* A button that quietly produces no file is worse than an error. */
+        window.console.error(error);
+        reText(note, C.ui.saveImageFailed);
+      }).then(function () {
+        image.disabled = false;
+        relabel(image, C.ui.saveImage);
+      });
+    });
+    row.appendChild(image);
+
     var restart = el('button', 'btn btn--quiet', C.ui.restart);
     restart.type = 'button';
     restart.addEventListener('click', function () {
@@ -423,7 +493,10 @@
       show('intro', 'navy');
     });
     row.appendChild(restart);
-    wrap.appendChild(row);
+
+    block.appendChild(row);
+    block.appendChild(note);
+    return block;
   }
 
   /* ── Start ────────────────────────────────────────────────────────────── */

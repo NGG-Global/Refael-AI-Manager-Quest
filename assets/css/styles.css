@@ -403,6 +403,7 @@ button { font: inherit; color: inherit; }
 .btn-row {
   margin-block-start: clamp(28px, 6vw, 48px);
   display: flex;
+  flex-wrap: wrap;                   /* the results row carries three buttons */
   align-items: center;
   justify-content: center;
   gap: clamp(14px, 4vw, 30px);
@@ -700,6 +701,15 @@ body[data-ground="navy"] :where(a, button, [tabindex]):focus-visible {
 .brandbar__ngg { height: clamp(30px, 6.4vw, 38px); width: auto; }
 .brandbar__rafael { height: clamp(15px, 3.2vw, 19px); width: auto; }
 
+/* ADAPTED — the note under the save buttons. The system has no such element;
+   it is set as footer type, which is the smallest step it does define. */
+.export-note {
+  margin-block-start: clamp(14px, 3vw, 20px);
+  text-align: center;
+  font-size: var(--fs-footer);
+  color: var(--slide-footer);
+}
+
 /* ── Motion ──────────────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -715,6 +725,22 @@ body[data-ground="navy"] :where(a, button, [tabindex]):focus-visible {
 
 @media print {
   body { background: var(--white); color: var(--black); }
-  .motif, .btn-row, .progress { display: none !important; }
+  .motif, .btn-row, .progress, .export-note { display: none !important; }
+
+  /* On screen the page is a flex column filling the viewport, and the screen
+     itself clips. Printed, that puts everything on page one; the results have
+     to be allowed to run over as many pages as they need. */
+  body, #app, .screen { display: block; min-height: 0; overflow: visible; }
+  .screen { padding-block: 0; }
+  .screen[hidden] { display: none !important; }
+
+  /* A4 is narrower than the 52rem the two-up layout needs, so on paper the
+     screen's single-column fallback would stack the axes and blow the stat
+     circles up to a third of the page. Paper gets the wide layout at fixed
+     circle sizes; the vw-based ones have no viewport to size against. */
+  .axes { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .wrap { max-width: none; }
+  :root { --score-size: 132px; --lens-size: 92px; }
+
   .zone, .axis, .growth { break-inside: avoid; }
 }
