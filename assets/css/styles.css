@@ -110,7 +110,6 @@
   /* Interactive sizes */
   --rate-size: clamp(52px, 13.2vw, 78px);
   --score-size: clamp(140px, 36vw, 208px);
-  --lens-size: clamp(88px, 25vw, 156px);
 }
 
 /* Ground + the ink that belongs on it, per the system's ground table.
@@ -576,102 +575,8 @@ body[data-ground="navy"] :where(a, button, [tabindex]):focus-visible {
   color: var(--slide-ink);
 }
 
-/* The balanced reading carries its action label on its own line. */
-.action-label { display: block; }
 
-/* Zone 2 — העדשה הרפאלית */
-.lenses {
-  max-width: 52rem;
-  margin-inline: auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(10px, 3vw, 28px);
-  align-items: stretch;
-}
-
-.lens {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.lens__disc {
-  width: var(--lens-size);
-  height: var(--lens-size);
-  margin-inline: auto;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ink);
-  color: var(--white);
-  font-size: calc(var(--lens-size) * 0.26);
-  font-weight: var(--fw-extrabold);
-  line-height: 1;
-  direction: ltr;
-  font-variant-numeric: tabular-nums;
-}
-
-.lens--growth .lens__disc { background: var(--blue); }
-
-.lens__name {
-  margin-block-start: 14px;
-  font-size: var(--fs-body);
-  font-weight: var(--fw-extrabold);
-  line-height: var(--lh-tight);
-  color: var(--slide-ink);
-}
-
-.lens__tags {
-  margin-block-start: auto;
-  padding-block-start: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-}
-
-.tag {
-  display: inline-block;
-  padding: 8px 15px;
-  border-radius: 999px;
-  font-size: var(--fs-footer);
-  font-weight: var(--fw-bold);
-  line-height: var(--lh-tight);
-}
-
-.tag--strength { background: var(--ink); color: var(--white); }
-.tag--growth { background: var(--blue); color: var(--white); }
-
-.growth {
-  max-width: var(--measure);
-  margin-inline: auto;
-  margin-block-start: clamp(36px, 7vw, 56px);
-  display: grid;
-  gap: clamp(26px, 5vw, 40px);
-}
-
-.growth > article + article { margin-block-start: clamp(6px, 2vw, 14px); }
-
-.growth__title {
-  font-size: var(--fs-kicker);
-  font-weight: var(--fw-bold);
-  line-height: var(--lh-tight);
-  color: var(--text-kicker-accent);
-  text-align: center;
-}
-
-.growth__name {
-  font-size: var(--fs-subtitle);
-  font-weight: var(--fw-extrabold);
-  line-height: var(--lh-tight);
-  color: var(--slide-ink);
-  text-align: center;
-}
-
-.growth__text { margin-block-start: clamp(18px, 3.4vw, 26px); }
-
-/* Zone 3 — מכאן למפת הצמיחה שלי */
+/* Zone 2 — מכאן למפת הצמיחה שלי */
 .closing { text-align: center; }
 
 .closing__question {
@@ -716,5 +621,5 @@ body[data-ground="navy"] :where(a, button, [tabindex]):focus-visible {
 @media print {
   body { background: var(--white); color: var(--black); }
   .motif, .btn-row, .progress { display: none !important; }
-  .zone, .axis, .growth { break-inside: avoid; }
+  .zone, .axis { break-inside: avoid; }
 }

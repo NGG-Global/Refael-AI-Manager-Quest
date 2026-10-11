@@ -1,8 +1,8 @@
 # מנהל/ת בעידן ה-AI | שאלון מוכנות אישי – רפאל
 
 A self-paced readiness questionnaire for Rafael managers, delivered by NGG as part
-of the LEAD AI programme. Ten statements rated 1–5 produce two headline scores —
-**AI Coworker** and **Human Leadership** — plus three Rafael-lens indicators and a
+of the LEAD AI programme. Ten statements rated 1–5 produce two scores —
+**AI Coworker** and **Human Leadership** — each with its readiness band and a
 personal next step.
 
 Static site: HTML, CSS and vanilla JavaScript, no build step and no dependencies.
@@ -24,29 +24,40 @@ the end of `content.js` (`להתחלת השאלון`, `חזרה`, `הבא`, `ל�
 
 ## Scoring
 
-Implemented in `assets/js/app.js`, per § 4 of the specification.
+Implemented in `assets/js/app.js`, per § 4.1 of the specification.
 
 | Measure | Questions | Calculation |
 | --- | --- | --- |
 | AI Coworker | 1, 3, 5, 7, 9 | mean × 20 |
 | Human Leadership | 2, 4, 6, 8, 10 | mean × 20 |
-| קבלת החלטות והכרעה | 1–4 | mean × 20 |
-| הנעת אנשים וצוותים | 5–8 | mean × 20 |
-| שותפויות וממשקים | 9–10 | mean × 20 |
 
 Bands: **80 %–100 %**, **60 %–79 %**, **up to 59 %**. Because each score is a mean
 of integers multiplied by 20, no reachable score falls between 79 and 80.
 
-The highest-scoring lens area is marked חוזקה and the lowest מוקד צמיחה; on a tie
-every area at that score is marked, and each one's action direction is shown
-(§ 4.2). When all three score the same there is no higher or lower area, so no
-circle is marked and the balanced reading — *חיבור בין היכולות*, supplied by
-Rafael and held in `content.js` as `balanced` — takes the place of the three
-action directions.
-
 Questions are compulsory and are presented one per screen: the forward step stays
-inactive until the statement on screen is rated. The axis and lens each statement
-belongs to are never shown while answering (§ 3, § 11).
+inactive until the statement on screen is rated. The axis a statement belongs to
+is never shown while answering (§ 3, § 11).
+
+## The Rafael lens is not produced
+
+§ 4.2, § 5 (zone 2) and § 8 of the specification define a second reading of the
+same ten answers through Rafael's three core tasks — קבלת החלטות והכרעה,
+הנעת אנשים וצוותים and שותפויות וממשקים — marking a חוזקה and a מוקד צמיחה.
+
+Rafael asked for it to be dropped: a second breakdown of one set of answers
+through their leadership model was confusing participants. The result now shows
+the two super-dimensions and the closing reflective question, and nothing else.
+
+What this means for the code:
+
+- The lens copy, its labels and the balanced reading are gone from
+  `content.js`; the lens scoring, its zone and its styles are gone from
+  `app.js` and `styles.css`.
+- Each question keeps its `lens` tag in `content.js`. Nothing reads it; it is
+  part of the source specification, and keeping it means restoring the
+  breakdown would not mean re-deriving the mapping.
+- The questions, the two super-dimension scores and their bands are untouched.
+  Removing the lens changes nothing about how a participant is scored.
 
 ## Design
 
@@ -95,7 +106,7 @@ design work. The following were therefore decided here and are marked `ADAPTED` 
 | File | |
 | --- | --- |
 | `index.html` | Shell: three screens, the motif and the footer |
-| `assets/js/content.js` | All copy and the question → axis/lens mapping |
+| `assets/js/content.js` | All copy and the question → axis mapping |
 | `assets/js/app.js` | Scoring, rendering, navigation |
 | `assets/css/styles.css` | Tokens and styles |
 | `assets/fonts/` | Assistant (woff2), from the design system |

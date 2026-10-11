@@ -35,8 +35,15 @@ const CONTENT = {
   },
 
   /* § 3 — שאלות השאלון -------------------------------------------------------
-     `axis` and `lens` drive the scoring only. Per § 3 and § 11 they are never
-     shown to the participant while answering.                                */
+     `axis` drives the scoring and, per § 3 and § 11, is never shown to the
+     participant while answering.
+
+     `lens` is the § 3 mapping to Rafael's three core tasks. Rafael asked for
+     that breakdown to be removed from the result — a second reading of the same
+     ten answers through their leadership model was confusing participants — so
+     nothing reads this field today. It is kept because it is part of the source
+     specification and restoring the breakdown would otherwise mean re-deriving
+     it.                                                                       */
   questions: [
     { n: 1,  text: 'אני מזהה משימות ותהליכי עבודה שבהם AI יכול לשפר אפקטיביות, איכות או זמן ביצוע.', axis: 'ai',    lens: 'decision' },
     { n: 2,  text: 'אני יודע/ת לתעדף היכן נכון להשקיע בהתנסות ובשילוב AI, בהתאם לערך שהוא יכול לייצר.', axis: 'human', lens: 'decision' },
@@ -50,13 +57,11 @@ const CONTENT = {
     { n: 10, text: 'אני יודע/ת לרתום אנשים וממשקים להתנסות בדרך עבודה חדשה עם AI, גם כשאין לי סמכות ישירה עליהם.', axis: 'human', lens: 'partners' }
   ],
 
-  /* § 5 — מסך התוצאות, מבנה הפלט --------------------------------------------- */
+  /* § 5 — מסך התוצאות, מבנה הפלט ---------------------------------------------
+     Zone 2 of § 5, the Rafael lens, is not produced. See the note on the
+     questions above.                                                          */
   results: {
-    axesHeading: 'שני ממדי-העל',
-    lensHeading: 'העדשה הרפאלית',
-    strengthLabel: 'חוזקה',
-    growthLabel: 'מוקד צמיחה',
-    growthTitle: 'מוקד הצמיחה הרפאלי שלך'
+    axesHeading: 'שני ממדי-העל'
   },
 
   /* § 4.1 + § 6 + § 7 — ממדי-העל, חישוב ופענוח -------------------------------
@@ -117,39 +122,6 @@ const CONTENT = {
 
   /* The lead-in of each "הצעד הבא שלך" paragraph, § 6 / § 7. */
   nextStepLabel: 'הצעד הבא שלך:',
-
-  /* § 4.2 + § 8 — העדשה הרפאלית ---------------------------------------------- */
-  lenses: [
-    {
-      key: 'decision',
-      name: 'קבלת החלטות והכרעה',
-      meaning: 'יש הזדמנות לחזק את היכולת להשתמש ב-AI להרחבת החשיבה, ובמקביל לתעדף, להפעיל שיקול דעת ולהכריע היכן הוא באמת מייצר ערך.',
-      action: 'בחר/י החלטה או תהליך אחד, השתמש/י ב-AI להרחבת האפשרויות והגדיר/י מראש מה נשאר באחריות ובשיקול הדעת שלך.'
-    },
-    {
-      key: 'people',
-      name: 'הנעת אנשים וצוותים',
-      meaning: 'ההזדמנות היא להפוך את השינוי הטכנולוגי לתהליך למידה צוותי – לייצר בהירות, לאפשר התנסות ולחזק את היכולת של הצוות לעבוד אחרת.',
-      action: 'יצר/י שגרת התנסות ולמידה בצוות והזמן/י עובדים להביא שימושים, הצלחות, שאלות וקשיים.'
-    },
-    {
-      key: 'partners',
-      name: 'שותפויות וממשקים',
-      meaning: 'ההזדמנות היא להרחיב את האימוץ מעבר לגבולות הצוות ולחבר בין אנשים, מידע ויכולות כדי לייצר ערך משותף.',
-      action: 'זהה/י ממשק אחד שבו AI יכול לשפר את העבודה המשותפת ובנו יחד התנסות או Use Case משותף.'
-    }
-  ],
-
-  /* העדשה הרפאלית — התוצאה מאוזנת בין שלושת התחומים.
-     נוסח שהתקבל מרפאל; מוצג במקום שלושת כיווני הפעולה כששלושת התחומים
-     מקבלים ציון זהה ולכן אין תחום גבוה או נמוך.                               */
-  balanced: {
-    title: 'מוקד הצמיחה שלך',
-    name: 'חיבור בין היכולות',
-    meaning: 'התוצאה שלך מאוזנת בין שלושת התחומים, ולכן לא עולה מוקד אחד שדורש חיזוק יותר מהאחרים. ההזדמנות שלך היא לחבר ביניהם ולתרגם אותם למהלך ניהולי אחד.',
-    actionLabel: 'כיוון פעולה:',
-    action: 'בחר/י אתגר ניהולי אחד מהעבודה ובחן/י כיצד ניתן לקדם אותו דרך קבלת החלטות טובה יותר, רתימת האנשים ושיתוף הממשקים הרלוונטיים – תוך שילוב AI כחלק מהדרך.'
-  },
 
   /* § 10 — סיום הפלט | מכאן למפת הצמיחה שלי ----------------------------------- */
   closing: {

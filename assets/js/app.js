@@ -2,14 +2,14 @@
    Refael · LEAD AI — שאלון מוכנות אישי
    Application logic.
 
-   Scoring follows § 4 of the specification exactly:
+   Scoring follows § 4.1 of the specification:
      · AI Coworker      — questions 1, 3, 5, 7, 9  → mean × 20
      · Human Leadership — questions 2, 4, 6, 8, 10 → mean × 20
-     · קבלת החלטות והכרעה — questions 1–4  → mean × 20
-     · הנעת אנשים וצוותים — questions 5–8  → mean × 20
-     · שותפויות וממשקים   — questions 9–10 → mean × 20
-   Strength is the highest-scoring lens area, growth focus the lowest; on a tie
-   more than one area is shown (§ 4.2).
+
+   The Rafael-lens breakdown of § 4.2 / § 8 is deliberately not produced. Rafael
+   asked for it to be dropped: a second reading of the same ten answers through
+   their leadership model was confusing participants. The result reports the two
+   super-dimensions and nothing else.
 --------------------------------------------------------------------------- */
 
 (function () {
@@ -76,12 +76,6 @@
   function axisScore(key) {
     return percent(C.questions
       .filter(function (q) { return q.axis === key; })
-      .map(function (q) { return state.answers[q.n - 1]; }));
-  }
-
-  function lensScore(key) {
-    return percent(C.questions
-      .filter(function (q) { return q.lens === key; })
       .map(function (q) { return state.answers[q.n - 1]; }));
   }
 
@@ -341,78 +335,11 @@
     zone1.appendChild(axes);
     wrap.appendChild(zone1);
 
-    /* אזור 2 — העדשה הרפאלית */
-    var scores = C.lenses.map(function (lens) { return lensScore(lens.key); });
-    var high = Math.max.apply(null, scores);
-    var low = Math.min.apply(null, scores);
-
-    var zone2 = el('section', 'zone');
-    zone2.appendChild(el('h2', 't-title zone__heading', C.results.lensHeading));
-
-    /* § 4.2 marks the highest-scoring area as the strength and the lowest as
-       the growth focus, and allows more than one of each on a tie. When all
-       three score the same there is no higher or lower area to mark, so the
-       marks are left off and every action direction is shown instead. */
-    var noSpread = high === low;
-
-    var list = el('div', 'lenses');
-    C.lenses.forEach(function (lens, i) {
-      var score = scores[i];
-      var isGrowth = score === low;
-
-      var block = el('article', 'lens' + (isGrowth && !noSpread ? ' lens--growth' : ''));
-      block.appendChild(el('div', 'lens__disc', score + '%'));
-      block.appendChild(el('p', 'lens__name', lens.name));
-
-      var tags = el('div', 'lens__tags');
-      if (!noSpread) {
-        if (score === high) { tags.appendChild(el('span', 'tag tag--strength', C.results.strengthLabel)); }
-        if (isGrowth) { tags.appendChild(el('span', 'tag tag--growth', C.results.growthLabel)); }
-      }
-      block.appendChild(tags);
-
-      list.appendChild(block);
-    });
-    zone2.appendChild(list);
-
-    /* The growth focus and its action direction, § 8. On a tie the title is
-       carried once and each tied area follows it. When all three score the
-       same there is no lowest area, so the balanced reading takes its place. */
-    var growth = el('div', 'growth');
-
-    if (noSpread) {
-      growth.appendChild(el('p', 'growth__title', C.balanced.title));
-      var balanced = el('article');
-      balanced.appendChild(el('p', 'growth__name', C.balanced.name));
-      var balancedText = el('div', 'growth__text stack');
-      balancedText.appendChild(el('p', 't-body', C.balanced.meaning));
-      var action = el('p', 't-body');
-      action.appendChild(el('span', 'next-step__label action-label', C.balanced.actionLabel));
-      action.appendChild(setText(document.createDocumentFragment(), C.balanced.action));
-      balancedText.appendChild(action);
-      balanced.appendChild(balancedText);
-      growth.appendChild(balanced);
-    } else {
-      growth.appendChild(el('p', 'growth__title', C.results.growthTitle));
-      C.lenses.forEach(function (lens, i) {
-        if (scores[i] !== low) { return; }
-        var block = el('article');
-        block.appendChild(el('p', 'growth__name', lens.name));
-        var text = el('div', 'growth__text stack');
-        text.appendChild(el('p', 't-body', lens.meaning));
-        text.appendChild(el('p', 't-body', lens.action));
-        block.appendChild(text);
-        growth.appendChild(block);
-      });
-    }
-    zone2.appendChild(growth);
+    /* אזור 2 — מכאן למפת הצמיחה שלי */
+    var zone2 = el('section', 'zone closing');
+    zone2.appendChild(el('h2', 't-title', C.closing.heading));
+    zone2.appendChild(el('p', 'closing__question', C.closing.question));
     wrap.appendChild(zone2);
-
-    /* אזור 3 — מכאן למפת הצמיחה שלי */
-    var zone3 = el('section', 'zone closing');
-    zone3.appendChild(el('h2', 't-title', C.closing.heading));
-    zone3.appendChild(el('p', 'closing__question', C.closing.question));
-    wrap.appendChild(zone3);
 
     var row = el('div', 'btn-row');
     var restart = el('button', 'btn btn--quiet', C.ui.restart);
