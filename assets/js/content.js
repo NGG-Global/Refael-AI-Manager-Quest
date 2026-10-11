@@ -38,23 +38,20 @@ const CONTENT = {
      `axis` drives the scoring and, per § 3 and § 11, is never shown to the
      participant while answering.
 
-     `lens` is the § 3 mapping to Rafael's three core tasks. Rafael asked for
-     that breakdown to be removed from the result — a second reading of the same
-     ten answers through their leadership model was confusing participants — so
-     nothing reads this field today. It is kept because it is part of the source
-     specification and restoring the breakdown would otherwise mean re-deriving
-     it.                                                                       */
+     § 3's fourth column maps each statement to one of Rafael's three core
+     tasks. That breakdown was removed from the result at Rafael's request, and
+     the mapping is not carried here — the specification holds it.             */
   questions: [
-    { n: 1,  text: 'אני מזהה משימות ותהליכי עבודה שבהם AI יכול לשפר אפקטיביות, איכות או זמן ביצוע.', axis: 'ai',    lens: 'decision' },
-    { n: 2,  text: 'אני יודע/ת לתעדף היכן נכון להשקיע בהתנסות ובשילוב AI, בהתאם לערך שהוא יכול לייצר.', axis: 'human', lens: 'decision' },
-    { n: 3,  text: 'אני משתמש/ת ב-AI כדי להרחיב את המידע והאפשרויות שעומדים בפניי בתהליכי חשיבה וקבלת החלטות.', axis: 'ai',    lens: 'decision' },
-    { n: 4,  text: 'אני יודע/ת להבחין מתי נכון להיעזר ב-AI ומתי נדרשים שיקול דעת, אחריות ומעורבות אנושית.', axis: 'human', lens: 'decision' },
-    { n: 5,  text: 'אני משלב/ת כלי AI כחלק משגרת העבודה שלי ומתנסה בדרכי עבודה חדשות.', axis: 'ai',    lens: 'people' },
-    { n: 6,  text: 'אני מעודד/ת את הצוות להתנסות ב-AI, ללמוד ולשתף גם בהצלחות וגם במה שלא עבד.', axis: 'human', lens: 'people' },
-    { n: 7,  text: 'אני נעזר/ת ב-AI, דאטה וכלים דיגיטליים כדי לזהות תובנות ולשפר את העבודה של הצוות.', axis: 'ai',    lens: 'people' },
-    { n: 8,  text: 'אני מסייע/ת לעובדים להבין כיצד AI משנה את העבודה שלהם ומה נדרש מהם כדי להצליח בסביבת העבודה החדשה.', axis: 'human', lens: 'people' },
-    { n: 9,  text: 'אני משתמש/ת ב-AI ובכלים דיגיטליים כדי לשתף ידע, לחבר מידע ולקדם עבודה אפקטיבית עם ממשקים.', axis: 'ai',    lens: 'partners' },
-    { n: 10, text: 'אני יודע/ת לרתום אנשים וממשקים להתנסות בדרך עבודה חדשה עם AI, גם כשאין לי סמכות ישירה עליהם.', axis: 'human', lens: 'partners' }
+    { n: 1,  text: 'אני מזהה משימות ותהליכי עבודה שבהם AI יכול לשפר אפקטיביות, איכות או זמן ביצוע.', axis: 'ai' },
+    { n: 2,  text: 'אני יודע/ת לתעדף היכן נכון להשקיע בהתנסות ובשילוב AI, בהתאם לערך שהוא יכול לייצר.', axis: 'human' },
+    { n: 3,  text: 'אני משתמש/ת ב-AI כדי להרחיב את המידע והאפשרויות שעומדים בפניי בתהליכי חשיבה וקבלת החלטות.', axis: 'ai' },
+    { n: 4,  text: 'אני יודע/ת להבחין מתי נכון להיעזר ב-AI ומתי נדרשים שיקול דעת, אחריות ומעורבות אנושית.', axis: 'human' },
+    { n: 5,  text: 'אני משלב/ת כלי AI כחלק משגרת העבודה שלי ומתנסה בדרכי עבודה חדשות.', axis: 'ai' },
+    { n: 6,  text: 'אני מעודד/ת את הצוות להתנסות ב-AI, ללמוד ולשתף גם בהצלחות וגם במה שלא עבד.', axis: 'human' },
+    { n: 7,  text: 'אני נעזר/ת ב-AI, דאטה וכלים דיגיטליים כדי לזהות תובנות ולשפר את העבודה של הצוות.', axis: 'ai' },
+    { n: 8,  text: 'אני מסייע/ת לעובדים להבין כיצד AI משנה את העבודה שלהם ומה נדרש מהם כדי להצליח בסביבת העבודה החדשה.', axis: 'human' },
+    { n: 9,  text: 'אני משתמש/ת ב-AI ובכלים דיגיטליים כדי לשתף ידע, לחבר מידע ולקדם עבודה אפקטיבית עם ממשקים.', axis: 'ai' },
+    { n: 10, text: 'אני יודע/ת לרתום אנשים וממשקים להתנסות בדרך עבודה חדשה עם AI, גם כשאין לי סמכות ישירה עליהם.', axis: 'human' }
   ],
 
   /* § 5 — מסך התוצאות, מבנה הפלט ---------------------------------------------

@@ -206,7 +206,7 @@
     progress.appendChild(track);
     wrap.appendChild(progress);
 
-    /* The statement. § 3 — only the statement is shown, never its axis or lens. */
+    /* The statement. § 3 — only the statement is shown, never its axis. */
     var question = el('div', 'question');
     var text = el('h2', 'question__text', q.text);
     text.id = 'question-text';

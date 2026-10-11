@@ -54,9 +54,9 @@ What this means for the code:
 - The lens copy, its labels and the balanced reading are gone from
   `content.js`; the lens scoring, its zone and its styles are gone from
   `app.js` and `styles.css`.
-- Each question keeps its `lens` tag in `content.js`. Nothing reads it; it is
-  part of the source specification, and keeping it means restoring the
-  breakdown would not mean re-deriving the mapping.
+- The per-question mapping to the three core tasks — § 3's fourth column — is
+  not carried either. The specification holds it, so restoring the breakdown
+  means reading it back from there.
 - The questions, the two super-dimension scores and their bands are untouched.
   Removing the lens changes nothing about how a participant is scored.
 
