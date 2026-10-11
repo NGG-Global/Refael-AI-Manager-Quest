@@ -170,25 +170,26 @@ opening `index.html` straight from the filesystem also works.
 ## Deployment
 
 `.github/workflows/deploy-pages.yml` publishes the repository root to GitHub Pages
-on every push to `main` or to the development branch, and can be run by hand from
-the Actions tab.
+on every push to `main`, and can be run by hand from the Actions tab.
 
-**One setting has to be made by a repository admin before the first deploy.**
-The workflow asks GitHub to turn Pages on, and GitHub refuses that to a workflow
-token:
+**Only `main` deploys, and that is deliberate.** GitHub restricts the
+`github-pages` environment to the default branch, so a run on any other branch is
+rejected before its first step:
 
 ```
-Get Pages site failed. Error: Not Found
-Create Pages site failed. Error: Resource not accessible by integration
+Branch "…" is not allowed to deploy to github-pages
+due to environment protection rules.
 ```
 
-Set **Settings → Pages → Source** to **GitHub Actions** — not *Deploy from a
-branch*, which the workflow cannot publish to — then re-run the workflow from the
-Actions tab. Every later push deploys on its own.
+The workflow used to trigger on the working branch as well, which meant every
+push there produced a run that could never pass. The site has one deployment and
+`main` is what it serves, so work lands on `main` to go live.
 
-GitHub may also restrict the `github-pages` deployment environment to the
-repository's default branch. If the deploy step is refused on that ground after
-Pages is on, merge this branch into `main`; the workflow runs there too.
+If Pages is ever turned off for the repository, the first run will fail at
+*Configure Pages* with `Create Pages site failed: Resource not accessible by
+integration` — a workflow token cannot create the site. An admin sets
+**Settings → Pages → Source** to **GitHub Actions** once (not *Deploy from a
+branch*, which this workflow cannot publish to) and re-runs it.
 
 ## Open points
 

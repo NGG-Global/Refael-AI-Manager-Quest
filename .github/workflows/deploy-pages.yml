@@ -1,10 +1,14 @@
 name: Deploy to GitHub Pages
 
+# Only the default branch deploys. GitHub restricts the github-pages
+# environment to it, so a run on any other branch is rejected before its first
+# step with "Branch ... is not allowed to deploy to github-pages due to
+# environment protection rules" — a guaranteed red run on every push to a
+# working branch. The site has one deployment; main is what it serves.
 on:
   push:
     branches:
       - main
-      - claude/amazing-cori-91p6hb
   workflow_dispatch:
 
 permissions:
